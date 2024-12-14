@@ -13,6 +13,7 @@ import {
   Grip,
   XIcon,
   SendHorizonal,
+  Search,
 } from "lucide-react";
 
 import {
@@ -30,6 +31,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Button } from "./ui/button";
 import highlightTextSafely from "@/lib/highlightTextSafely";
+import { Label } from "./ui/label";
 
 const groups = [
   {
@@ -117,11 +119,19 @@ const NodesSidebar = () => {
   return (
     <Sidebar collapsible="none" className="hidden flex-1 md:flex">
       <SidebarHeader className="gap-3.5 border-b p-4 flex flex-row space-between">
-        <SidebarInput
-          placeholder="Type to search..."
-          value={searchValue}
-          onInput={handleInput}
-        />
+        <SidebarGroupContent className="relative">
+          <Label htmlFor="search" className="sr-only">
+            Search
+          </Label>
+          <SidebarInput
+            id="search"
+            placeholder="Search the nodes..."
+            value={searchValue}
+            onInput={handleInput}
+            className="pl-8"
+          />
+          <Search className="pointer-events-none absolute left-2 top-1/2 size-4 -translate-y-1/2 select-none opacity-50" />
+        </SidebarGroupContent>
         <Button
           variant="ghost"
           size="sm"
