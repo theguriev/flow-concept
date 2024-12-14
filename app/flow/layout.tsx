@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ReactNode } from "react";
-import { AppSidebar } from "@/components/app-sidebar";
+import AppSidebar from "@/components/app-sidebar";
 import {
   Breadcrumb,
   BreadcrumbItem,
