@@ -1,10 +1,26 @@
 "use client";
 
-import * as React from "react";
-import { ArchiveX, File, Inbox, Send, Trash2 } from "lucide-react";
+import { ComponentProps, FormEventHandler, useMemo, useState } from "react";
+import {
+  Inbox,
+  House,
+  SendHorizonal,
+  ChartNoAxesColumn,
+  RotateCcw,
+  User,
+  Sparkles,
+  PencilRuler,
+  MessageSquareText,
+  GalleryHorizontal,
+  StretchHorizontal,
+  Clock,
+  AlarmClock,
+  AudioLines,
+  SquareMinus,
+  Grip,
+} from "lucide-react";
 
 import NavUser from "@/components/nav-user";
-import { Label } from "@/components/ui/label";
 
 import {
   Sidebar,
@@ -12,6 +28,7 @@ import {
   SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarHeader,
   SidebarInput,
   SidebarMenu,
@@ -19,17 +36,16 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { Switch } from "@/components/ui/switch";
 import ConnectlyLogo from "@/components/icons/connectly-logo";
 
-// This is sample data
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/eugenguriev.jpeg",
-  },
   navMain: [
+    {
+      title: "Home",
+      url: "#",
+      icon: House,
+      isActive: true,
+    },
     {
       title: "Inbox",
       url: "#",
@@ -37,118 +53,122 @@ const data = {
       isActive: true,
     },
     {
-      title: "Drafts",
+      title: "Campaigns",
       url: "#",
-      icon: File,
+      icon: SendHorizonal,
       isActive: false,
     },
     {
-      title: "Sent",
+      title: "Analytics",
       url: "#",
-      icon: Send,
+      icon: ChartNoAxesColumn,
       isActive: false,
     },
     {
-      title: "Junk",
+      title: "Automations",
       url: "#",
-      icon: ArchiveX,
+      icon: RotateCcw,
       isActive: false,
     },
     {
-      title: "Trash",
+      title: "Audiences",
       url: "#",
-      icon: Trash2,
+      icon: User,
+      isActive: false,
+    },
+    {
+      title: "Sofia AI",
+      url: "#",
+      icon: Sparkles,
+      isActive: false,
+    },
+    {
+      title: "Sign up units",
+      url: "#",
+      icon: PencilRuler,
       isActive: false,
     },
   ],
-  mails: [
+  groups: [
     {
-      name: "William Smith",
-      email: "williamsmith@example.com",
-      subject: "Meeting Tomorrow",
-      date: "09:34 AM",
-      teaser:
-        "Hi team, just a reminder about our meeting tomorrow at 10 AM.\nPlease come prepared with your project updates.",
+      label: "Messages",
+      items: [
+        {
+          title: "Simple message",
+          icon: MessageSquareText,
+        },
+        {
+          title: "Carousel message",
+          icon: GalleryHorizontal,
+        },
+        {
+          title: "Button message",
+          icon: StretchHorizontal,
+        },
+        {
+          title: "Limit time offer",
+          icon: Clock,
+        },
+      ],
     },
     {
-      name: "Alice Smith",
-      email: "alicesmith@example.com",
-      subject: "Re: Project Update",
-      date: "Yesterday",
-      teaser:
-        "Thanks for the update. The progress looks great so far.\nLet's schedule a call to discuss the next steps.",
+      label: "Events",
+      items: [
+        {
+          title: "Customer replies",
+          icon: SendHorizonal,
+        },
+      ],
     },
     {
-      name: "Bob Johnson",
-      email: "bobjohnson@example.com",
-      subject: "Weekend Plans",
-      date: "2 days ago",
-      teaser:
-        "Hey everyone! I'm thinking of organizing a team outing this weekend.\nWould you be interested in a hiking trip or a beach day?",
+      label: "Timing",
+      items: [
+        {
+          title: "Time delay",
+          icon: AlarmClock,
+        },
+      ],
     },
     {
-      name: "Emily Davis",
-      email: "emilydavis@example.com",
-      subject: "Re: Question about Budget",
-      date: "2 days ago",
-      teaser:
-        "I've reviewed the budget numbers you sent over.\nCan we set up a quick call to discuss some potential adjustments?",
-    },
-    {
-      name: "Michael Wilson",
-      email: "michaelwilson@example.com",
-      subject: "Important Announcement",
-      date: "1 week ago",
-      teaser:
-        "Please join us for an all-hands meeting this Friday at 3 PM.\nWe have some exciting news to share about the company's future.",
-    },
-    {
-      name: "Sarah Brown",
-      email: "sarahbrown@example.com",
-      subject: "Re: Feedback on Proposal",
-      date: "1 week ago",
-      teaser:
-        "Thank you for sending over the proposal. I've reviewed it and have some thoughts.\nCould we schedule a meeting to discuss my feedback in detail?",
-    },
-    {
-      name: "David Lee",
-      email: "davidlee@example.com",
-      subject: "New Project Idea",
-      date: "1 week ago",
-      teaser:
-        "I've been brainstorming and came up with an interesting project concept.\nDo you have time this week to discuss its potential impact and feasibility?",
-    },
-    {
-      name: "Olivia Wilson",
-      email: "oliviawilson@example.com",
-      subject: "Vacation Plans",
-      date: "1 week ago",
-      teaser:
-        "Just a heads up that I'll be taking a two-week vacation next month.\nI'll make sure all my projects are up to date before I leave.",
-    },
-    {
-      name: "James Martin",
-      email: "jamesmartin@example.com",
-      subject: "Re: Conference Registration",
-      date: "1 week ago",
-      teaser:
-        "I've completed the registration for the upcoming tech conference.\nLet me know if you need any additional information from my end.",
-    },
-    {
-      name: "Sophia White",
-      email: "sophiawhite@example.com",
-      subject: "Team Dinner",
-      date: "1 week ago",
-      teaser:
-        "To celebrate our recent project success, I'd like to organize a team dinner.\nAre you available next Friday evening? Please let me know your preferences.",
+      label: "Actions",
+      items: [
+        {
+          title: "Sofia AI takeover",
+          icon: AudioLines,
+        },
+        {
+          title: "Opt out customer",
+          icon: SquareMinus,
+        },
+      ],
     },
   ],
 };
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const [activeItem, setActiveItem] = React.useState(data.navMain[0]);
-  const [mails, setMails] = React.useState(data.mails);
+export function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
+  const [activeItem, setActiveItem] = useState(data.navMain[0]);
   const { setOpen } = useSidebar();
+  const [searchValue, setSearchValue] = useState("");
+
+  const handleInput: FormEventHandler<HTMLInputElement> = (event) => {
+    setSearchValue(event.currentTarget.value);
+  };
+
+  const groups = useMemo(
+    () =>
+      data.groups.reduce<
+        { label: string; items: { title: string; icon: typeof House }[] }[]
+      >((acc, group) => {
+        const items = group.items.filter((item) =>
+          item.title.toLowerCase().includes(searchValue.toLowerCase())
+        );
+        if (items.length) {
+          return [...acc, { ...group, items }];
+        }
+        return acc;
+      }, []),
+    [searchValue]
+  );
 
   return (
     <Sidebar
@@ -192,13 +212,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                       }}
                       onClick={() => {
                         setActiveItem(item);
-                        const mail = data.mails.sort(() => Math.random() - 0.5);
-                        setMails(
-                          mail.slice(
-                            0,
-                            Math.max(5, Math.floor(Math.random() * 10) + 1)
-                          )
-                        );
                         setOpen(true);
                       }}
                       isActive={activeItem.title === item.title}
@@ -214,44 +227,43 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarGroup>
         </SidebarContent>
         <SidebarFooter className="p-0">
-          <NavUser user={data.user} />
+          <NavUser
+            user={{
+              name: "shadcn",
+              email: "m@example.com",
+              avatar: "/avatars/eugenguriev.jpeg",
+            }}
+          />
         </SidebarFooter>
       </Sidebar>
 
       <Sidebar collapsible="none" className="hidden flex-1 md:flex">
         <SidebarHeader className="gap-3.5 border-b p-4">
-          <div className="flex w-full items-center justify-between">
-            <div className="text-base font-medium text-foreground">
-              {activeItem.title}
-            </div>
-            <Label className="flex items-center gap-2 text-sm">
-              <span>Unreads</span>
-              <Switch className="shadow-none" />
-            </Label>
-          </div>
-          <SidebarInput placeholder="Type to search..." />
+          <SidebarInput
+            placeholder="Type to search..."
+            value={searchValue}
+            onInput={handleInput}
+          />
         </SidebarHeader>
-        <SidebarContent>
-          <SidebarGroup className="px-0">
-            <SidebarGroupContent>
-              {mails.map((mail) => (
-                <a
-                  href="#"
-                  key={mail.email}
-                  className="flex flex-col items-start gap-2 whitespace-nowrap border-b p-4 text-sm leading-tight last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-                >
-                  <div className="flex w-full items-center gap-2">
-                    <span>{mail.name}</span>{" "}
-                    <span className="ml-auto text-xs">{mail.date}</span>
-                  </div>
-                  <span className="font-medium">{mail.subject}</span>
-                  <span className="line-clamp-2 w-[260px] whitespace-break-spaces text-xs">
-                    {mail.teaser}
-                  </span>
-                </a>
-              ))}
-            </SidebarGroupContent>
-          </SidebarGroup>
+        <SidebarContent className="px-3">
+          {groups.map((group) => (
+            <SidebarGroup key={group.label} className="px-0">
+              <SidebarGroupLabel>{group.label}</SidebarGroupLabel>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {group.items.map((item) => (
+                    <SidebarMenuItem key={item.title}>
+                      <SidebarMenuButton draggable className="px-2.5">
+                        <item.icon />
+                        <span>{item.title}</span>
+                        <Grip className="ml-auto" />
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+          ))}
         </SidebarContent>
       </Sidebar>
     </Sidebar>
