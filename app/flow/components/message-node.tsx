@@ -1,16 +1,17 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Handle, Position } from "@xyflow/react";
+import { Handle, NodeProps, Position } from "@xyflow/react";
 import { MessageSquareText } from "lucide-react";
 import Message from "./message";
 import MessageHeader from "./message-header";
 import MessageBody from "./message-body";
 import MessageFooter from "./message-footer";
+import { cn } from "@/lib/utils";
 
 const MessageNode = ({
   id,
+  selected,
   data,
-}: {
-  id: string;
+}: NodeProps & {
   data: {
     body?: {
       text: {
@@ -31,7 +32,12 @@ const MessageNode = ({
   };
 }) => {
   return (
-    <Card className="w-[278px]">
+    <Card
+      className={cn(
+        "w-[278px]",
+        selected ? "border-2 border-primary" : "border-2 border-transparent"
+      )}
+    >
       <Handle type="target" position={Position.Left} id={id} />
       <CardHeader className="flex flex-row gap-2 p-3">
         <MessageSquareText />

@@ -23,6 +23,7 @@ const initNodes = [
       x: 200,
       y: 500,
     },
+    data: {},
   },
   {
     data: {
