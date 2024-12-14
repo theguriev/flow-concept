@@ -18,6 +18,7 @@ import {
   AudioLines,
   SquareMinus,
   Grip,
+  XIcon,
 } from "lucide-react";
 
 import NavUser from "@/components/nav-user";
@@ -37,6 +38,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import ConnectlyLogo from "@/components/icons/connectly-logo";
+import { Button } from "./ui/button";
 
 const data = {
   navMain: [
@@ -154,6 +156,10 @@ export function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
     setSearchValue(event.currentTarget.value);
   };
 
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   const groups = useMemo(
     () =>
       data.groups.reduce<
@@ -238,12 +244,20 @@ export function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
       </Sidebar>
 
       <Sidebar collapsible="none" className="hidden flex-1 md:flex">
-        <SidebarHeader className="gap-3.5 border-b p-4">
+        <SidebarHeader className="gap-3.5 border-b p-4 flex flex-row space-between">
           <SidebarInput
             placeholder="Type to search..."
             value={searchValue}
             onInput={handleInput}
           />
+          <Button
+            variant="ghost"
+            size="sm"
+            className="px-2"
+            onClick={handleClose}
+          >
+            <XIcon />
+          </Button>
         </SidebarHeader>
         <SidebarContent className="px-3">
           {groups.map((group) => (
