@@ -1,21 +1,14 @@
 "use client";
 
-import { ComponentProps, useCallback, useState } from "react";
-import ToolSidebar from "./tool-sidebar";
-import NodesSidebar from "./nodes-sidebar";
-import { Sidebar } from "./ui/sidebar";
-import MessageNodeSidebar from "./message-node-sidebar";
 import isMessageNode from "@/lib/isMessageNode";
-import { MessageNode } from "@/types/message-node";
-import {
-  OnSelectionChangeFunc,
-  useOnSelectionChange,
-  useReactFlow,
-} from "@xyflow/react";
+import { OnSelectionChangeFunc, useOnSelectionChange } from "@xyflow/react";
+import { ComponentProps, useCallback, useState } from "react";
+import MessageNodeSidebar from "./message-node-sidebar";
+import NodesSidebar from "./nodes-sidebar";
+import ToolSidebar from "./tool-sidebar";
+import { Sidebar } from "./ui/sidebar";
 
 const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
-  const { updateNode } = useReactFlow();
-
   const [selectedNodes, setSelectedNodes] = useState<Array<Node>>([]);
 
   const onChange: OnSelectionChangeFunc = useCallback(({ nodes }) => {
@@ -25,15 +18,6 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
   useOnSelectionChange({
     onChange,
   });
-
-  const handleMessageChange = useCallback(
-    (node: MessageNode) => {
-      updateNode(node.id, node);
-    },
-    [updateNode]
-  );
-
-  console.log("log: selectedNode", selectedNodes);
 
   return (
     <Sidebar
