@@ -11,11 +11,13 @@ const useSelected = (): {
   selectedEdges: Edge[];
   selectedNode?: Node;
   selectedEdge?: Edge;
+  onChange: OnSelectionChangeFunc;
 } => {
   const [selectedNodes, setSelectedNodes] = useState<Array<Node>>([]);
   const [selectedEdges, setSelectedEdges] = useState<Array<Edge>>([]);
 
   const onChange: OnSelectionChangeFunc = useCallback(({ nodes, edges }) => {
+    console.log("log: useSelected -> onChange", { nodes, edges });
     setSelectedNodes(nodes);
     setSelectedEdges(edges);
   }, []);
@@ -29,6 +31,7 @@ const useSelected = (): {
     selectedEdges,
     selectedNode: selectedNodes[0],
     selectedEdge: selectedEdges[0],
+    onChange,
   };
 };
 

@@ -1,7 +1,7 @@
 import markdownToHtml from "@/lib/markdownToHtml";
 import React, { useState, useEffect } from "react";
 
-const Markdown = ({ children }: { children: string }) => {
+const Markdown = ({ children }: { children?: string }) => {
   const [htmlContent, setHtmlContent] = useState<string>("");
 
   useEffect(() => {

@@ -53,6 +53,34 @@ const initNodes = [
     },
     type: "FLOW_OBJECT_TYPE_SEND_CONNECTLY_TEMPLATE_MESSAGE",
   },
+  {
+    data: {
+      body: {
+        text: {
+          text: "🌟 *Exclusive Offer Just for You!* 🌟\n\nUnlock your special discount now! Tap here 👉 [Link] to save big! Hurry, limited time only! 💸",
+        },
+      },
+      header: {
+        media: {
+          example: [
+            "https://cdn.dev.connectly.ai/38a6/38a6107c-c81a-4027-8fd5-74e52d3c2fce",
+          ],
+          type: "TYPE_IMAGE",
+        },
+      },
+      footer: {
+        text: {
+          text: "this is footer",
+        },
+      },
+    },
+    id: "0193c24b-e969-67d3-8e43-fddbfd0a6471",
+    position: {
+      x: 860,
+      y: 750,
+    },
+    type: "FLOW_OBJECT_TYPE_SEND_CONNECTLY_TEMPLATE_MESSAGE",
+  },
 ];
 
 const initEdges = [
@@ -92,13 +120,11 @@ const Flow = () => {
       onEdgesChange={onEdgesChange}
       onConnect={onConnect}
       nodeTypes={nodeTypes}
-      selectNodesOnDrag={false}
+      selectNodesOnDrag={true}
       snapToGrid={true}
       deleteKeyCode={null}
       minZoom={0.1}
       maxZoom={2.5}
-      selectionKeyCode={null}
-      multiSelectionKeyCode={null}
     >
       <Background />
       <Controls showInteractive={false} />
