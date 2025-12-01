@@ -29,8 +29,6 @@ const MessageNodeSidebar = memo((initialNode: MessageNode) => {
   const { setOpen } = useSidebar();
   const { updateNode } = useReactFlow();
 
-  console.log("log: node in sidebar", node);
-
   const handleClose = () => {
     setOpen(false);
   };
